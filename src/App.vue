@@ -1,60 +1,66 @@
 <template>
-  <div class="black-bg" v-if="isOpen">
-    <div class="white-bg">
-      <h4>상세페이지임</h4>
-      <p>상세페이지 내용임</p>
-      <button @click="isOpen = false">닫기</button>
+  <AppHeader
+      :str="str"
+      @renew="renewValue"
+  />
+  <form @submit.prevent="submitForm">
+    <div>
+      <label for="userName"> id : </label>
+      <input id="userName" type="text" v-model="userName"/>
     </div>
-  </div>
-
-  <div class="menu">
-   <a v-for="(menu, i) in menuArray" :key="i">
-     {{ menu }}
-   </a>
-  </div>
-
-  <div>
-    <img src="./assets/logo.png" alt="img1" class="room-img">
-    <h4 @click="isOpen = true">{{ productArray[0] }}</h4>
-    <p>{{ price1 }} 만원</p>
-    <button @click="increase(0)">허위매물신고</button> <span>신고수 : {{ count[0] }}</span>
-  </div>
-  <div>
-    <img src="./assets/logo.png" alt="img2" class="room-img">
-    <h4>{{ productArray[1] }}</h4>
-    <p>{{ price2 }} 만원</p>
-    <button @click="increase(1)">허위매물신고</button> <span>신고수 : {{ count[1] }}</span>
-  </div>
-  <div>
-    <img src="./assets/logo.png" alt="img3" class="room-img">
-    <h4> {{ productArray[2] }}</h4>
-    <p>{{ price2 }} 만원</p>
-    <button @click="increase(2)">허위매물신고</button> <span>신고수 : {{ count[2] }}</span>
-  </div>
+    <div>
+      <label for="password"> pw : </label>
+      <input id="password" type="password" v-model="userPassword"/>
+    </div>
+    <button type="submit">Login</button>
+  </form>
 </template>
 
+
 <script>
+import AppHeader from "@/components/AppHeader.vue";
+import axios from 'axios'
 
 export default {
   name: 'App',
   data() {
     return {
+      str: "Header!!!!",
       //데이터 보관함
-      isOpen : false,
-      count : [0, 0, 0],
-      productArray : ["역삼동 원룸", "천호동 원룸", "마포구원룸"],
-      menuArray : ["Home", "Shop", "About"],
-      price1 : 60,
-      price2 : 70,
+      userName : "",
+      userPassword : "",
     }
   },
   methods : {
-    increase(data) {
-      this.count[data]++;
+    renewValue : function() {
+      return this.str = "reNewValue"
     },
+    submitForm : function() {
+      console.log(this.userName, this.userPassword)
+
+      //http 통신 라이브러리 브라우저 -> 서버 데이터 주고받기 위한 라이브러리
+      //post 생성, 변경
+      const url = 'https://jsonplaceholder.typicode.com/users'
+      const data = {
+        userName : this.userName,
+        userPassword : this.userPassword
+      }
+      axios.post(url, data)
+          .then((response) => {
+            console.log(response)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+    }
   },
   components: {
+    AppHeader : AppHeader,
+  },
+  routes: {
+
   }
+
 }
 </script>
 
@@ -67,37 +73,4 @@ export default {
   color: #2c3e50;
 }
 
-  .menu {
-    background: darkslateblue;
-    padding: 15px;
-    border-radius: 5px;
-  }
-  .menu a {
-    color: wheat;
-    padding: 10px;
-  }
-  .room-img {
-    width: 100%;
-    height: 50px;
-    margin-top: 40px;
-  }
-  body {
-    margin: 0;
-  }
-  div {
-    box-sizing: border-box;
-  }
-  .black-bg {
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    position: fixed;
-    padding: 20px;
-  }
-  .white-bg {
-    width: 100%;
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-  }
 </style>
