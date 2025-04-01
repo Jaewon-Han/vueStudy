@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<ul>
-      <li v-for="(todoItem, index) in todoItems" :key="index" class="shadow">
-        <i class="checkBtn fas fa-check" :class="{checkBtnCompleted : todoItem.completed}" @click="toggleComplete(todoItem)">체크</i>
+      <li v-for="(todoItem, index) in todoItemsProps" :key="index" class="shadow">
+        <i class="checkBtn fas fa-check" :class="{checkBtnCompleted : todoItem.completed}" @click="toggleComplete(todoItem, index)">체크</i>
         <span :class="{textCompleted : todoItem.completed}">{{ todoItem.item }} </span>
         <span class="removeBtn" @click="removeTodo(todoItem, index)">
           <i class="fas fa-trash-alt">삭제</i>
@@ -15,30 +15,19 @@
 <script>
 
 export default {
-  created : function() {
-    if (localStorage.length > 0) {
-      Object.values(localStorage).forEach((item) => {
-        if (item !== 'SILENT') {
-          this.todoItems.push(JSON.parse(item))
-        }
-     });
-    }
-  },
   data () {
 		return {
-			todoItems: []
 		}
 	},
+  props : {
+    todoItemsProps : []
+  },
 	methods: {
     removeTodo : function(todoItem, index) {
-      localStorage.removeItem(todoItem)
-      //특정인덱스에서 1개를 지움
-      this.todoItems.splice(index, 1)
+      this.$emit('removeItem', todoItem, index)
     },
-    toggleComplete : function(todoItem) {
-      todoItem.completed = !todoItem.completed
-      localStorage.removeItem(todoItem.item)
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
+    toggleComplete : function(todoItem, index) {
+      this.$emit('toggleItem', todoItem, index)
     }
 	},
 };
