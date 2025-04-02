@@ -23,27 +23,27 @@ export default {
     }
   },
   methods : {
-    addOneItem : function(todoItem) {
+    addOneItem(todoItem) {
       const objectValue = {completed: false, item : todoItem}
       localStorage.setItem(todoItem, JSON.stringify(objectValue))
       this.todoItems.push(objectValue)
     },
-    removeOneItem : function(todoItem, index) {
+    removeOneItem(todoItem, index) {
       localStorage.removeItem(todoItem.item)
       //특정인덱스에서 1개를 지움
       this.todoItems.splice(index, 1)
     },
-    toggleOneItem : function(todoItem, index) {
+    toggleOneItem(todoItem, index) {
       this.todoItems[index].completed = !this.todoItems[index].completed
       localStorage.removeItem(todoItem.item)
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
     },
-    clearOneItem : function() {
+    clearOneItem() {
       localStorage.clear()
       this.todoItems = []
     }
   },
-  created : function() {
+  created() {
     if (localStorage.length > 0) {
       Object.values(localStorage).forEach((item) => {
         if (item !== 'SILENT') {
