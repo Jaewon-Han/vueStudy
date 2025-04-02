@@ -53,10 +53,11 @@ export default {
     }
   },
   components: {
-    'TodoHeader' : TodoHeader,
-    'TodoInput' : TodoInput,
-    'TodoList' : TodoList,
-    'TodoFooter' : TodoFooter
+    //향상된 객체 리터럴 앞뒤가 똑같기 때문에 하나만 적용
+    TodoHeader,
+    TodoInput,
+    TodoList,
+    TodoFooter
   },
   routes: {
 
