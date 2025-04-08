@@ -1,7 +1,7 @@
 <template>
 	<div class="inputBox shadow">
-		<input type="text" v-model="newTodoItem" @keyup.enter="addTodo">
-    <span class="addContainer" @click="addTodo">
+		<input type="text" v-model="newTodoItem" @keyup.enter="addTodoClick">
+    <span class="addContainer" @click="addTodoClick">
       <i class="fa-plus addBtn">+</i>
     </span>
     <Modal v-if="showModal" @close="showModal = false">
@@ -18,6 +18,7 @@
 
 <script>
 import Modal from "@/components/common/Modal.vue";
+import { mapActions } from "vuex";
 export default {
 	data() {
 		return {
@@ -26,9 +27,12 @@ export default {
 		}
 	},
 	methods: {
-    addTodo() {
+    ...mapActions({
+      addTodo : 'addOneItemActions'
+    }),
+    addTodoClick() {
       if (this.newTodoItem !== '') {
-        this.$emit('addTodoItem', this.newTodoItem);
+        this.addTodo(this.newTodoItem)
         this.clearInput()
       } else {
         this.showModal = true
