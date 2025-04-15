@@ -1,12 +1,26 @@
 
-<script setup>
+<script>
+import { fetchNewsList } from '@/api'
 
+export default {
+  data() {
+    return {
+      newses : []
+    }
+  },
+  created() {
+
+    //var vm = this;
+    //vm.usrs = response.data
+    fetchNewsList()
+      .then(response => this.newses = response.data)
+      .catch()
+  }
+}
 </script>
 
 <template>
-  <div style="position: relative; width: 50%; height: 50%; border: 1px solid #282828;">
-     <span style="font-size: 30px; color: #282828">뭔데</span>
-  </div>
+  <div v-for="news in newses">{{ news.title }}</div>
 </template>
 
 <style>
