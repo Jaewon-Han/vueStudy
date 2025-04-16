@@ -1,6 +1,5 @@
 
 <script>
-import {fetchJobsList} from "@/api";
 
 export default {
   data() {
@@ -9,18 +8,17 @@ export default {
    }
   },
   created() {
-    fetchJobsList()
-      .then(response => this.jobs = response.data)
-      .catch()
+    this.$store.dispatch('FETCH_JOBS')
   }
 }
 
 </script>
 
 <template>
-<div>
-  <div v-for="(job, index) in jobs" :key="index">{{ job.title }}</div>
-</div>
+  <p v-for="(job, index) in this.$store.state.jobs" :key="index">
+    <a :href="job.url"> {{ job.title }}</a>
+    <small> {{ job.time_ago }} by {{ job.domain }}</small>
+  </p>
 </template>
 
 <style scoped>

@@ -1,26 +1,19 @@
 
 <script>
-import { fetchNewsList } from '@/api'
 
 export default {
-  data() {
-    return {
-      newses : []
-    }
-  },
   created() {
-
-    //var vm = this;
-    //vm.usrs = response.data
-    fetchNewsList()
-      .then(response => this.newses = response.data)
-      .catch()
+    this.$store.dispatch('FETCH_NEWS')
   }
 }
 </script>
 
 <template>
-  <div v-for="news in newses">{{ news.title }}</div>
+  <p v-for="news in this.$store.state.news">
+    <a :href="news.url"> {{ news.title }}</a>
+    <small> {{ news.time_ago }} by {{ news.user }}</small>
+  </p>
+
 </template>
 
 <style>

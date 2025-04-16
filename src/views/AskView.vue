@@ -1,25 +1,32 @@
 <script>
-import { fetchAskList } from "@/api";
+import { mapGetters } from 'vuex'
 
 export default  {
-
-  data() {
-    return {
-      asks : []
-    }
+  methods: {
   },
   //라이프 사이클 훅
   created() {
-    fetchAskList()
-      .then(response => this.asks = response.data)
-      .catch()
+    this.$store.dispatch("FETCH_ASKS")
+  },
+  computed : {
+    ...mapGetters([
+      'fetchedAsk'
+    ])
+    // ...mapState({
+    //   asks : state => state.asks
+    // })
+  },
+  data() {
+    return {
+    }
   },
 }
 </script>
 <template>
-<div>
-  <div v-for="ask in asks">{{ ask.title }}</div>
-</div>
+  <p v-for="(ask,index) in fetchedAsk" :key="index">
+    <a :href="ask.url"> {{ ask.title }} </a>
+    <small> {{ ask.time_ago }} by {{ ask.user }}</small>
+  </p>
 </template>
 
 <style scoped>
