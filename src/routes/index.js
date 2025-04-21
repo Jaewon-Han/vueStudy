@@ -24,13 +24,13 @@ const routes = [
     component : JobsView
   },
   {
-    path : "/item",
+    path : "/item/:id",
     component: ItemView
   },
   {
-    path : "/user",
+    path : "/user/:id",
     component: UserView
-  }
+  },
 ]
 
 export const router = createRouter({

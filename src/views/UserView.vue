@@ -1,13 +1,27 @@
-<script setup>
+<script>
+export default {
+  computed : {
+    userInfo() {
+      return this.$store.state.user
+    }
+  },
+  created() {
+    const userName = this.$route.params.id
+    this.$store.dispatch('FETCH_USER', userName)
+  },
 
+}
 </script>
 
 <template>
   <div>
-    user!!!!
+    <p> {{ userInfo.id }} </p>
+    <p> {{ userInfo.karma }} </p>
+    <p> {{ userInfo.created }} </p>
+    <p> {{ userInfo.about }} </p>
   </div>
 </template>
 
-<style scoped>
+<style>
 
 </style>
