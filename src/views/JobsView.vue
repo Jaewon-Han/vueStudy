@@ -1,27 +1,20 @@
 
 <script>
 
+import ListItem from "@/components/ListItem.vue";
+
 export default {
-  data() {
-   return {
-     jobs: []
-   }
+  components: {
+    ListItem
   },
-  created() {
-    this.$store.dispatch('FETCH_JOBS')
-  }
+
 }
 
 </script>
 
 <template>
-  <p v-for="(job, index) in this.$store.state.jobs" :key="index">
-    <a :href="job.url"> {{ job.title }}</a>
-    <small> {{ job.time_ago }} by {{ job.domain }}</small>
-  </p>
+  <list-item/>
 </template>
 
 <style scoped>
-
-
 </style>
